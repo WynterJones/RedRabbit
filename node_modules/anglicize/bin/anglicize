@@ -1,0 +1,10 @@
+#!/usr/bin/env node
+
+var anglicize = require('../'),
+    fs = require('fs'),
+    input = fs.readFileSync(process.argv[2]),
+    output = process.argv[3];
+
+console.log('writing to %s', output);
+
+fs.writeFileSync(output, anglicize(input.toString()));

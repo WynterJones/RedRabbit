@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0">
+    <link href="https://fonts.googleapis.com/css?family=Barlow:400,500,600,700,900|Roboto:100,100i,300,300i,400,400i,500,500i,700,700i,900,900i&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.0/css/all.min.css" integrity="sha256-h20CPZ0QyXlBuAw7A+KluUYx/3pK+c7lYEpqLTlxjYQ=" crossorigin="anonymous" />
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="fancybox.css">
+    <title>Reddit Conspiracy Monitor</title>
+</head>
+<body class="bg-gray-900">
+
+  <webview style="display: none"></webview>
+
+  <div id="sidebar" class="border-gray-700 text-gray-500 bg-gray-800 border-right pt-8 border-r">
+    <div class="px-3 pt-3">
+      <div class="bar bg-gray-900 border border-gray-700 rounded mb-4"><div class="in five-minutes rounded"></div></div>
+      <hr class="border-t-0 border-b border-gray-700 mb-4">
+      <div id="main_nav" class="mb-4 font-medium">
+        <a id="dashboard" href="#" class="block py-1 px-2 capitalize border border-gray-800"><i class="fas fa-tachometer-alt" style="width: 22px;"></i> Dashboard</a>
+        <a id="add-community" href="#" class="block py-1 px-2 capitalize border border-gray-800"><i class="fas fa-plus-square" style="width: 22px;"></i> Add Reddit URL</a>
+        <a id="settings" href="#" class="block py-1 px-2 capitalize border border-gray-800"><i class="fas fa-cog" style="width: 22px;"></i> Settings</a>
+      </div>
+      <hr class="border-t-0 border-b border-gray-700 mb-4">
+      <div id="community_list" class="font-medium"></div>
+    </div>
+
+  </div>
+
+  <header style="display:none">
+    <h2 class="text-gray-500 text-3xl font-bold mb-4"><i class="fab fa-reddit mr-1"></i> <a href="#" id="reddit-link" class="browser_link">/r/<strong id="community-name" class="text-gray-400">name</strong></a></h2>
+  </header>
+
+  <div id="nav" class="bg-gray-800 border border-gray-700 rounded mb-4" style="display:none">
+    <nav class="flex justify-between flex-col sm:flex-row">
+      <button data-tab="overview" class="tab-link text-gray-500 py-4 px-6 block focus:outline-none">
+        <i class="fas fa-database mr-1"></i> Overview
+      </button>
+      <button data-tab="analytics" class="tab-link text-gray-500 py-4 px-6 block focus:outline-none">
+        <i class="fas fa-chart-pie mr-1"></i> Keywords
+      </button>
+      <button data-tab="images" class="tab-link text-gray-500 py-4 px-6 blockfocus:outline-none">
+        <i class="far fa-image mr-1"></i> Images <span id="images-total" class="ml-2 font-medium rounded border border-gray-700 py-1 px-2 text-xs leading-none text-gray-600">0</span>
+      </button>
+      <button data-tab="videos" class="tab-link text-gray-500 py-4 px-6 block  focus:outline-none">
+        <i class="far fa-play-circle mr-1"></i> Videos <span id="videos-total" class="ml-2 font-medium rounded border border-gray-700 py-1 px-2 text-xs leading-none text-gray-600">0</span>
+      </button>
+    </nav>
+  </div>
+
+  <div id="no-data" class="border rounded border-gray-800 p-8 text-sm text-gray-500 text-center" style="display: none">
+    <p>No data to display. Please wait as new data is collected.</p>
+  </div>
+
+  <div id="no-videos" class="border rounded border-gray-800 p-8 text-sm text-gray-500 text-center" style="display: none">
+    <p>No YouTube videos to display.</p>
+  </div>
+
+  <div data-tab="overview" class="tab" style="display:none">
+    <div class="p-6 bg-gray-800 border border-gray-800 rounded mb-4" style="background: rgba(19, 23, 32, 1.000)">
+      <div class="flex mb-8">
+        <div class="w-1/3">
+          <p id="totalRows" class="text-3xl font-semibold text-center text-gray-300">0</p>
+          <p class="text-center text-gray-500 font-medium">Posts Recorded</p>
+        </div>
+        <div class="w-1/3">
+          <p id="chart-signal-postsperday" class="text-3xl font-semibold text-center text-gray-300">0</p>
+          <p class="text-center text-gray-500 font-medium">Avg. Posts Per Day</p>
+        </div>
+        <div class="w-1/3">
+          <p id="sentimentScore" class="text-3xl font-semibold text-center  text-gray-300">0</p>
+          <p id="sentimentLabel" class="text-center text-gray-500 font-medium">Avg. Sentiment</p>
+        </div>
+      </div>
+      <hr class="border-gray-800 mb-8">
+      <div id="signal-chart"></div>
+    </div>
+
+    <div class="relative">
+      <i class="fas fa-search absolute text-gray-700" style="top: 10px;right: 10px;font-size: 17px;"></i>
+      <input class="shadow appearance-none border rounded w-full py-2 px-3 pr-8 bg-gray-900 border-gray-800 focus:border-gray-700 text-gray-300 leading-tight focus:bg-gray-800 focus:outline-none mb-3" id="search" style="background: rgba(19, 23, 32, 1.000)" type="text" placeholder="Search">
+    </div>
+
+    <div id="search-info" style="display: none" class="text-xs float-right text-gray-500 pt-1">
+      <strong id="search-count">0</strong> Posts (<strong id="search-percent">0%</strong> Mentioned)
+    </div>
+
+    <div id="pagination-container" class="mb-4"></div>
+    <div id="data-container"></div>
+    <a href="#" class="go-to-next-page block p-3 mb-4 text-gray-400 border rounded border-gray-700 mt-3 text-center font-medium">Go to Next Page</a>
+  </div>
+
+  <div data-tab="analytics" class="tab" style="display:none">
+    <table class="table-fixed border-gray-700" style="width: 100%">
+      <thead class="bg-gray-800 border border-gray-700 text-gray-300">
+        <tr>
+          <th class="w-2/5 px-4 py-2 text-left">Word</th>
+          <th class="w-1/5 px-4 py-2 text-left">Count</th>
+          <th class="w-1/5 px-4 py-2 text-left">Posts</th>
+          <th class="w-1/5 px-4 py-2 text-left">Mentioned</th>
+        </tr>
+      </thead>
+      <tbody id="word-table" style="background: rgba(19, 23, 32, 1.000)"></tbody>
+    </table>
+  </div>
+
+  <div data-tab="images" class="tab" style="display:none">
+    <div id="image-pagination-container" class="mb-3"></div>
+    <div id="image-data-container"></div>
+    <a href="#" class="go-to-next-page block p-3 mb-4 text-gray-400 border rounded border-gray-700 mt-3 text-center font-medium">Go to Next Page</a>
+  </div>
+
+  <div data-tab="videos" class="tab" style="display:none">
+    <div id="videos-pagination-container" class="mb-3"></div>
+    <div id="videos-data-container"></div>
+    <a href="#" class="go-to-next-page block p-3 mb-4 text-gray-400 border rounded border-gray-700 mt-3 text-center font-medium">Go to Next Page</a>
+  </div>
+
+  <div id="dashboard-tab" class="tab" style="display:none">
+    <div class="pt-2 mb-6">
+      <h3 class="text-gray-400 font-bold text-3xl mb-1"><i class="fas fa-satellite-dish mr-1"></i> Red<span class="text-gray-600">Rabbit</span></h3>
+      <p class="text-gray-600 text-lg">Your monitor-spy for Reddit. Periodically scan communities for new posts and save to database.</p>
+    </div>
+    <div class="p-6 bg-gray-800 border border-gray-800 rounded mb-4" style="background: rgba(19, 23, 32, 1.000)">
+      <div class="flex mb-8">
+        <div class="w-1/4">
+          <p id="overalltotalRows" class="text-3xl font-semibold text-center text-gray-300"></p>
+          <p class="text-center text-gray-500 font-medium">Total Posts Recorded</p>
+        </div>
+        <div class="w-1/4">
+          <p id="chart-dashboard-postsperday" class="text-3xl font-semibold text-center text-gray-300"></p>
+          <p class="text-center text-gray-500 font-medium">Avg. Posts Per Day</p>
+        </div>
+        <div class="w-1/4">
+          <p id="dashboard-sentimentScore" class="text-3xl font-semibold text-center  text-gray-300"></p>
+          <p id="dashboard-sentimentLabel" class="text-center text-gray-500 font-medium">Avg. Sentiment</p>
+        </div>
+        <div class="w-1/4">
+          <p id="dashboard-disk-usage" class="text-3xl font-semibold text-center text-gray-300"></p>
+          <p class="text-center text-gray-500 font-medium">Disk Usage</p>
+        </div>
+      </div>
+      <hr class="border-gray-800 mb-8">
+      <div id="dashboard-chart"></div>
+    </div>
+    <div class="flex -mx-2 text-gray-600 mb-3">
+      <div class="w-1/2 px-2">
+        <div class="p-6 bg-gray-800 border border-gray-800 rounded mb-4" style="background: rgba(19, 23, 32, 1.000)">
+          <p class="text-gray-500 mb-3 uppercase font-bold">Keyword Stats</p>
+          <hr class="border-gray-800 mb-4">
+          <div id="dashboard-keyword-chart" class="mb-3"></div>
+          <div id="dashboard-keyword">
+            <table class="table-fixed border-gray-700" style="width: 100%">
+              <thead class="bg-gray-800 border border-gray-700 text-gray-300">
+                <tr>
+                  <th class="w-3/4 px-4 py-2 text-left">Word</th>
+                  <th class="w-1/4 px-4 py-2 text-left">Count</th>
+                  <th class="w-1/4 px-4 py-2 text-left">Posts</th>
+                </tr>
+              </thead>
+              <tbody id="dashboard-word-table"></tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+      <div class="w-1/2 px-2">
+        <div class="p-6 bg-gray-800 border border-gray-800 rounded mb-4" style="background: rgba(19, 23, 32, 1.000)">
+          <p class="text-gray-500 mb-3 uppercase font-bold">Latest Posts</p>
+          <hr class="border-gray-800 mb-4">
+          <div id="dashboard-posts"></div>
+        </div>
+      </div>
+    </div>
+    <div class="flex -mx-2">
+      <div class="w-1/2 px-2">
+        <div class="p-6 bg-gray-800 border border-gray-800 rounded mb-4" style="background: rgba(19, 23, 32, 1.000)">
+          <p class="text-gray-500 mb-3 uppercase font-bold">Latest Videos</p>
+          <hr class="border-gray-800 mb-4">
+          <div id="dashboard-videos"></div>
+        </div>
+      </div>
+      <div class="w-1/2 px-2">
+        <div class="p-6 bg-gray-800 border border-gray-800 rounded mb-4" style="background: rgba(19, 23, 32, 1.000)">
+          <p class="text-gray-500 mb-3 uppercase font-bold">Latest Images</p>
+          <hr class="border-gray-800 mb-4">
+          <div id="dashboard-images"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div id="settings-tab" class="tab" style="display:none">
+    <h3 class="text-gray-400 font-bold text-3xl mb-2"><i class="fas fa-cog mr-1"></i> Settings</h3>
+    <p class="text-gray-600 text-lg mb-6">Customize the app to suite your needs. You can also find more information on database. </p>
+    <div class="border border-gray-800 rounded p-8 mb-4" style="background: rgba(19, 23, 32, 1.000)">
+      <div class="">
+        <label class="block text-gray-500 uppercase tracking-wide mb-2" for="username">
+          Interval Timing
+        </label>
+        <select class="shadow appearance-none border rounded w-full py-2 px-3  bg-gray-900 border-gray-700 text-gray-300 leading-tight focus:outline-none focus:shadow-outline">
+          <option value="60000">1 Minute</option>
+          <option value="120000">2 Minutes</option>
+          <option value="300000">5 Minutes</option>
+          <option value="600000">10 Minutes</option>
+          <option value="180000">30 Minutes</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="border border-gray-800 rounded p-8 mb-6" style="background: rgba(19, 23, 32, 1.000)">
+      <div class="mb-6">
+        <label class="block text-gray-500 uppercase tracking-wide mb-2" for="username">
+          Database Name
+        </label>
+        <input class="shadow appearance-none border rounded w-full py-2 px-3  bg-gray-900 border-gray-700 text-gray-300 leading-tight focus:outline-none focus:bg-gray-800" type="text">
+      </div>
+      <div class="mb-6 text-lg">
+        <label class="block text-gray-500 uppercase tracking-wide mb-2" for="username">
+          Port
+        </label>
+        <input class="shadow appearance-none border rounded w-full py-2 px-3  bg-gray-900 border-gray-700 text-gray-300 leading-tight focus:outline-none focus:bg-gray-800" type="text">
+      </div>
+      <div class="mb-6 text-lg">
+        <label class="block text-gray-500 uppercase tracking-wide mb-2" for="username">
+          Username
+        </label>
+        <input class="shadow appearance-none border rounded w-full py-2 px-3  bg-gray-900 border-gray-700 text-gray-300 leading-tight focus:outline-none focus:bg-gray-800" type="text">
+      </div>
+      <div class="text-lg">
+        <label class="block text-gray-500 uppercase tracking-wide mb-2" for="username">
+          Password
+        </label>
+        <input class="shadow appearance-none border rounded w-full py-2 px-3  bg-gray-900 border-gray-700 text-gray-300 leading-tight focus:outline-none focus:bg-gray-800" type="text">
+      </div>
+    </div>
+
+    <a href="#" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 float-right rounded">Save Changes</a>
+  </div>
+
+  <div id="add-new-tab" class="tab" style="display:none">
+    <h3 class="text-gray-400 font-bold text-3xl mb-2"><i class="fas fa-plus-square mr-1"></i> Add Reddit Community</h3>
+    <p class="text-gray-600 text-lg mb-6">Monitor any community on Reddit. Just copy and paste the URL for any community you want to monitor.</p>
+    <div class="border border-gray-800 rounded p-8 mb-6" style="background: rgba(19, 23, 32, 1.000)">
+      <div class="mb-6 text-lg">
+        <label class="block text-gray-300 uppercase font-bold mb-2" for="username">
+          Reddit URL
+        </label>
+        <input id="redditURL" class="shadow appearance-none border rounded w-full py-2 px-3  bg-gray-900 border-gray-700 text-gray-300 leading-tight focus:outline-none focus:bg-gray-800" type="text">
+      </div>
+    </div>
+    <a href="#" id="add-reddit-url" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 float-right rounded">Add Community</a>
+  </div>
+
+  <script src="js/index.js"></script>
+</body>
+</html>
