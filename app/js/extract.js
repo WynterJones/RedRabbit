@@ -22,8 +22,6 @@ const extract = {
       const score = sentiment.analyze(`${title} ${snippet}`).score
       if (title !== '' && url !== '') {
         await prisma_query.create_post(title, url, attached_image, included_image, included_link, snippet, community_id, score)
-        // pool.query(`INSERT INTO posts (title, url, created_at, attached_image, included_image, included_link, snippet, community_id, sentiment_score)
-        // VALUES ('${title}', '${url}', to_timestamp(${Date.now()} / 1000.0), '${attached_image}', '${included_image}', '${included_link}', '${snippet}', ${community_id}, ${score})`, function(err, result) {})
       }
     })
   }
