@@ -5,16 +5,33 @@ const charts = {
   dates: async (chart_id, chart_postsperday) => {
     let chart_labels = []
     let chart_data = []
+    let new_dates = []
     let sql_statement = ''
+    let date_group = ''
+    const community_id = $('#community_list a.active').attr('data-id')
     if (chart_id === 'dashboard-chart') {
-      sql_statement = `SELECT created_at, count(1) FROM posts GROUP BY 1 ORDER BY created_at ASC`
+      date_group = await prisma_query.posts_chart()
     }
     else {
-      sql_statement = `SELECT created_at, count(1) FROM posts WHERE community_id = ${$('#community_list a.active').attr('data-id')} GROUP BY 1 ORDER BY created_at ASC`
+      date_group = await prisma_query.posts_community_chart(community_id)
     }
-    const date_group = await prisma_query.raw(sql_statement)
-    if (date_group.length > 0) {
-      date_group.forEach(function(item, index) {
+    date_group.forEach(function(item, index) {
+      if (moment(item.created_at).isValid()) {
+        new_dates.push(moment(item.created_at).startOf('day').toDate())
+      }
+    })
+    const occurrenceDay = function(occurrence){
+      return moment(occurrence).startOf('day').format()
+    }
+    const groupToDay = function(group, day){
+      return {
+        created_at: day,
+        count: group.length
+      }
+    }
+    const final_date_group = _.chain(new_dates).groupBy(occurrenceDay).map(groupToDay).sortBy('day').value()
+    if (final_date_group.length > 0) {
+      final_date_group.forEach(function(item, index) {
         if (item.created_at) {
           chart_labels.push(`${moment(item.created_at).format('MMM. Do')}`)
           chart_data.push(parseInt(item.count))
@@ -93,8 +110,8 @@ const charts = {
       }]
       },
       options: {
-        responsive: false,
-        maintainAspectRatio: false,
+        responsive: true,
+        maintainAspectRatio: true,
         layout: {
           padding: {
             top: 5

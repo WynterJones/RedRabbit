@@ -34,8 +34,8 @@ const db_requests = {
       }
       pagination.init('posts', all_posts, 15)
       $('#loading-bar').hide()
-      $('#nav').fadeIn()
-      $('.tab[data-tab="overview"]').fadeIn()
+      $('#nav').show()
+      $('.tab[data-tab="overview"]').show()
       charts.dates('signal-chart', 'chart-signal-postsperday')
     } else {
       $('#no-data').show()

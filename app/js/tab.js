@@ -34,8 +34,8 @@ const tab = {
       }
       if (tab !== 'overview') {
         $('#loading-bar').hide()
-        $('#nav').fadeIn()
-        $(`.tab[data-tab="${tab}"]`).fadeIn()
+        $('#nav').show()
+        $(`.tab[data-tab="${tab}"]`).show()
       }
     }
   },

@@ -2,8 +2,46 @@
 
 const prisma_queries = {
 
-  posts: async (id) => {
-    return await prisma.posts.findMany()
+  posts: async () => {
+    return await prisma.posts.findMany({
+      select: {
+        created_at: true,
+        attached_image: true,
+        included_image: true,
+        included_link: true,
+        snippet: true,
+        community_id: true,
+        sentiment_score: true
+      },
+      orderBy: {
+        created_at: "desc"
+      }
+    })
+  },
+
+  posts_chart: async () => {
+    return await prisma.posts.findMany({
+      select: {
+        created_at: true
+      },
+      orderBy: {
+        created_at: "asc"
+      }
+    })
+  },
+
+  posts_community_chart: async (community_id) => {
+    return await prisma.posts.findMany({
+      select: {
+        created_at: true
+      },
+      where: {
+        community_id: parseInt(community_id)
+      },
+      orderBy: {
+        created_at: "asc"
+      }
+    })
   },
 
   post: async (id) => {
@@ -27,9 +65,8 @@ const prisma_queries = {
           community_id: parseInt(community_id),
           sentiment_score: parseFloat(sentiment_score)
         }
-      }).catch(e => {})
-      .finally(async () => {
-        await prisma.disconnect()
+      }).catch(e => {
+        console.log('Error in create_post' ,e)
       })
   },
 
