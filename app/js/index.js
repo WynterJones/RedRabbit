@@ -4,20 +4,13 @@ window.$ = window.jQuery = require('jquery')
 const shell = require('electron').shell
 const { ipcRenderer } = require('electron')
 
-// Connect to Database - https://www.prisma.io/
+// Connect to Database
 const { PrismaClient } = require('@prisma/client')
 const prisma = new PrismaClient()
 prisma.connect()
 
 // temp - remove soon
-  const { Pool, Client } = require('pg')
-  const client = new Client({
-    user: '',
-    password: '',
-    host: 'localhost',
-    database: 'monitor_reddit',
-    port: 5432,
-  })
+  const { Pool } = require('pg')
   const pool = new Pool({
     user: '',
     password: '',
@@ -25,7 +18,6 @@ prisma.connect()
     database: 'monitor_reddit',
     port: 5432,
   })
-  client.connect()
 // temp - remove soon
 
 // npm
@@ -85,4 +77,4 @@ $(document).on('click', '#dashboard',        function (event) { dashboard.init(e
 $(document).on('click', '#settings',         function (event) { settings.open(event, this) })
 $(document).on('click', '#add-community',    function (event) { community.add_new(event, this) })
 $(document).on('click', '#add-reddit-url',   function (event) { community.save(event, this) })
-$(document).on('click', '#community_list a', function (event) { community.init(event, this) })
+$(document).on('click', '#community_list a', function (event) { community.open(event, this) })

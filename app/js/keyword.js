@@ -7,7 +7,7 @@ const keyword = {
 
   community: async () => {
     let totalShow = 15
-    const all_posts = await prisma_query.all_posts_by_community_id()
+    const all_posts = await prisma_query.posts_by_community_id()
     let word_list = {}
     let word_array = []
     all_posts.forEach(function(item, index) {

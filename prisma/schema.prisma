@@ -8,7 +8,7 @@ datasource db {
 }
 
 model communities {
-  id   Int     @default(autoincrement()) @id
+  id   Int     @default('reddit_communities_id_seq') @id
   name String? @unique
 }
 
@@ -16,7 +16,7 @@ model posts {
   attached_image  String?
   community_id    Int?
   created_at      DateTime?
-  id              Int       @default(autoincrement()) @id
+  id              Int       @default('posts_id_seq') @id
   included_image  String?
   included_link   String?
   sentiment_score Float?

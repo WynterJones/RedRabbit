@@ -63,11 +63,10 @@ const dashboard = {
       $('#dashboard-images').html(templates.images(image_data))
       $('#dashboard-videos').html(templates.videos_dashboard(video_data))
 
-      charts.dates('dashboard-chart', 'chart-dashboard-postsperday')
-
       keyword.dashboard(word_list, allPosts, allPostsCount)
       $('#loading-bar').hide()
       $('#dashboard-tab').fadeIn()
+      charts.dates('dashboard-chart', 'chart-dashboard-postsperday')
     }
     init().catch(e => { throw e })
   }

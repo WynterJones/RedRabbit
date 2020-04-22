@@ -3,7 +3,7 @@
 const db_requests = {
 
   communities: async () => {
-    const all_communities = await prisma_query.all_communities()
+    const all_communities = await prisma_query.communities()
     $('#community_list').html('')
     all_communities.forEach(function(item, index) {
       $('#community_list').append(`<a href="#" data-name="${item.name}" data-id="${item.id}" class="block py-1 px-2 capitalize border border-gray-800">${item.name}</a>`)
@@ -12,7 +12,7 @@ const db_requests = {
   },
 
   posts: async () => {
-    const all_posts = await prisma_query.all_posts_by_community_id()
+    const all_posts = await prisma_query.posts_by_community_id()
     if (all_posts.length > 0) {
       $('#no-data').hide()
       $('#totalRows').text(format_number()(Object.keys(all_posts).length))
@@ -43,7 +43,7 @@ const db_requests = {
   },
 
   images: async () => {
-    const all_posts = await prisma_query.all_posts_by_community_id()
+    const all_posts = await prisma_query.posts_by_community_id()
     let image_data = []
     all_posts.forEach(function(item, index) {
       if (item.attached_image && item.attached_image !== '' && item.attached_image !== 'undefined') {
@@ -54,7 +54,7 @@ const db_requests = {
   },
 
   videos: async () => {
-    const all_posts = await prisma_query.all_posts_by_community_id()
+    const all_posts = await prisma_query.posts_by_community_id()
     let video_data = []
     all_posts.forEach(function(item, index) {
       if (item.included_link &&
@@ -72,7 +72,7 @@ const db_requests = {
   },
 
   search: async (search_query) => {
-    const all_posts = await prisma_query.all_posts_by_community_id()
+    const all_posts = await prisma_query.posts_by_community_id()
     const full_count = all_posts.length
     const search_all_posts = []
     search_query = search_query.toLowerCase()
