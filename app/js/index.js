@@ -7,25 +7,6 @@ const { ipcRenderer } = require('electron')
 // Connect to Database
 const { PrismaClient } = require('@prisma/client')
 const prisma = new PrismaClient()
-prisma.connect()
-
-// temp - remove soon
-  const { Pool, Client } = require('pg')
-  const pool = new Pool({
-    user: '',
-    password: '',
-    host: 'localhost',
-    database: 'monitor_reddit',
-    port: 5432,
-  })
-  const client = new Client({
-    user: '',
-    password: '',
-    host: 'localhost',
-    database: 'monitor_reddit',
-    port: 5432,
-  })
-// temp - remove soon
 
 // npm
 const Chart = require('chart.js')
@@ -85,15 +66,3 @@ $(document).on('click', '#settings',         function (event) { settings.open(ev
 $(document).on('click', '#add-community',    function (event) { community.add_new(event, this) })
 $(document).on('click', '#add-reddit-url',   function (event) { community.save(event, this) })
 $(document).on('click', '#community_list a', function (event) { community.open(event, this) })
-
-// hey()
-// async function hey() {
-//   const all_posts = await prisma_query.posts()
-//   all_posts.forEach(function(item, index) {
-//     const row_id = item.id
-//     if (!item.created_at || item.created_at === '') {
-//       pool.query(`DELETE FROM posts WHERE id = ${row_id}`, function(pool_err, pool_result) {
-//       })
-//     }
-//   })
-// }
