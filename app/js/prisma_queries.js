@@ -32,6 +32,23 @@ const prisma_queries = {
     })
   },
 
+  posts_for_dashboard: async () => {
+    return await prisma.posts.findMany({
+      select: {
+        title: true,
+        url: true,
+        created_at: true,
+        community_id: true,
+        attached_image: true,
+        included_link: true,
+        sentiment_score: true
+      },
+      orderBy: {
+        created_at: "asc"
+      }
+    })
+  },
+
   posts_community_chart: async (community_id) => {
     return await prisma.posts.findMany({
       select: {

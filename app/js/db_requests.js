@@ -22,17 +22,8 @@ const db_requests = {
       all_posts.forEach(function(item, index) {
         global_sentiment.push(parseInt(item.sentiment_score))
       })
-      if (global_sentiment.length > -1) {
-        const avg = calculate.average(global_sentiment)
-        let sentiment_emoji = 'fa-frown'
-        if (avg > 0) {
-          sentiment_emoji = "fa-grin-alt";
-        } else if (avg === 0 || avg === -0) {
-          sentiment_emoji = "fa-meh";
-        }
-        $('#sentimentScore').html(`<i class="far ${sentiment_emoji}"></i>`)
-        $('#sentimentLabel').html(`Avg. Sentiment <span class="hidden">${avg.toFixed(0)}</span>`)
-      }
+      const sentiment = calculate.sentiment(global_sentiment)
+      calculate.sentiment(global_sentiment, 'sentimentScore', 'sentimentLabel')
       pagination.init('posts', all_posts, 15)
     } else {
       $('#no-data').show()

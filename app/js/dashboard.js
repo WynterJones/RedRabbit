@@ -3,6 +3,7 @@
 const dashboard = {
 
   init: async (event, element) => {
+    var t0 = performance.now()
     event.preventDefault()
     $('.tab, header, #nav').hide()
     $('#loading-bar').show()
@@ -10,8 +11,8 @@ const dashboard = {
     $(element).attr('class', 'block py-1 px-2 rounded border-gray-700 border text-gray-300 bg-gray-900 capitalize')
     $('#community_list a.active').attr('class','block py-1 px-2 capitalize border border-gray-800')
 
-    const allPosts = await prisma_query.posts()
-    const allPostsCount = await prisma_query.posts_count()
+    const allPosts = await prisma_query.posts_for_dashboard()
+    const allPostsCount = allPosts.length
     const total = allPostsCount
     let video_data = []
     let image_data = []
@@ -34,25 +35,14 @@ const dashboard = {
           video_data.push(item)
         }
       }
-      let words = TextCleaner(`${item.title} ${item.snippet}`).stripHtml().condense().toLowerCase().removeApostrophes().removeStopWords().valueOf().split(/[\s*\.*\,\;\+?\#\|:\-\/\\\[\]\(\)\{\}$%&0-9*]/)
+      let words = TextCleaner(item.title).stripHtml().condense().toLowerCase().removeApostrophes().removeStopWords().valueOf().split(/[\s*\.*\,\;\+?\#\|:\-\/\\\[\]\(\)\{\}$%&0-9*]/)
       for (var i in  words) {
         if (words[i].length > 1) {
           word_list[words[i]] ? word_list[words[i]]+=1 : word_list[words[i]]=1
         }
       }
     })
-
-    if (global_sentiment.length > -1) {
-      const avg = calculate.average(global_sentiment)
-      let sentiment_emoji = 'fa-frown'
-      if (avg > 0) {
-        sentiment_emoji = "fa-grin-alt";
-      } else if (avg === 0 || avg === -0) {
-        sentiment_emoji = "fa-meh";
-      }
-      $('#dashboard-sentimentScore').html(`<i class="far ${sentiment_emoji}"></i>`)
-      $('#dashboard-sentimentLabel').html(`Avg. Sentiment <span class="hidden">${avg.toFixed(0)}</span>`)
-    }
+    calculate.sentiment(global_sentiment, 'dashboard-sentimentScore', 'dashboard-sentimentLabel')
     const posts_data = allPosts.splice(0, 5)
     $('#dashboard-posts').html(templates.small_posts(posts_data))
     $('.dashboard-open-community').each(function() {
@@ -61,11 +51,12 @@ const dashboard = {
     })
     $('#dashboard-images').html(templates.images(image_data))
     $('#dashboard-videos').html(templates.videos_dashboard(video_data))
-
-    keyword.dashboard(word_list, allPosts, allPostsCount)
     $('#loading-bar').hide()
-    $('#dashboard-tab').show()
+    $('#dashboard-tab').fadeIn()
+    keyword.dashboard(word_list, allPosts, allPostsCount)
     charts.dates('dashboard-chart', 'chart-dashboard-postsperday')
+    var t1 = performance.now();
+    console.log("Call to 'dashboard.init()' took " + (t1 - t0) + " milliseconds.");
   }
 
 }
