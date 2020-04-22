@@ -1,6 +1,6 @@
 window.$ = window.jQuery = require('jquery')
 
-// electron
+// Electron
 const shell = require('electron').shell
 const { ipcRenderer } = require('electron')
 
@@ -52,15 +52,20 @@ const events = require('./js/events')
 const search = require('./js/search')
 const extract = require('./js/extract')
 const monitor = require('./js/monitor')
+const posts = require('./js/posts')
+const community = require('./js/community')
+const tab = require('./js/tab')
+const settings = require('./js/settings')
 
 // Global
+let loop_time = 120000
 let source_url = ''
 let community_id = 0
 
 // Main Loop
 setInterval(function () {
   monitor.spy()
-}, 120000)
+}, loop_time)
 
 // Build Sidebar
 db_requests.communities()
@@ -71,13 +76,13 @@ ipcRenderer.on('extracthtml', (event, html) => { extract.save(event, html) })
 // Events
 $(document).find('[data-fancybox="gallery"]').fancybox()
 $(document).on('click', '.browser_link',     function (event) { events.open_browser_link(event, this) })
-$(document).on('click', '.go-to-next-page',  function (event) { events.load_next_page(event, this) })
+$(document).on('click', '.tab-link',         function (event) { tab.open(event, this) })
 $(document).on('change', '#search',          function (event) { search.input_change(event, this) })
 $(document).on('click', '.search-by-word',   function (event) { search.by_keyword(event, this) })
-$(document).on('click', '.post-click',       function (event) { events.post(event, this) })
+$(document).on('click', '.post-click',       function (event) { posts.open(event, this) })
+$(document).on('click', '.go-to-next-page',  function (event) { posts.next_page(event, this) })
 $(document).on('click', '#dashboard',        function (event) { dashboard.init(event, this) })
-$(document).on('click', '#settings',         function (event) { events.settings(event, this) })
-$(document).on('click', '#add-community',    function (event) { events.open_add_community(event, this) })
-$(document).on('click', '#add-reddit-url',   function (event) { events.add_community(event, this) })
-$(document).on('click', '#community_list a', function (event) { events.open_community(event, this) })
-$(document).on('click', '.tab-link',         function (event) { events.open_tab(event, this) })
+$(document).on('click', '#settings',         function (event) { settings.open(event, this) })
+$(document).on('click', '#add-community',    function (event) { community.add_new(event, this) })
+$(document).on('click', '#add-reddit-url',   function (event) { community.save(event, this) })
+$(document).on('click', '#community_list a', function (event) { community.init(event, this) })

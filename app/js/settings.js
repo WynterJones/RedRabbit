@@ -1,14 +1,8 @@
 'use strict'
 
-const events = {
+const settings = {
 
-  open_browser_link: (event, element) => {
-    event.preventDefault()
-    event.stopPropagation()
-    shell.openExternal($(element).attr('href'))
-  },
-
-  settings: (event, element) => {
+  open: (event, element) => {
     event.preventDefault()
     $('.tab, header, #nav').hide()
     $('#settings-tab').fadeIn()
@@ -16,7 +10,7 @@ const events = {
     $(element).attr('class', 'block py-1 px-2 rounded border-gray-700 border text-gray-300 bg-gray-900 capitalize')
     $('#community_list a.active').attr('class','block py-1 px-2 capitalize border border-gray-800')
   }
-  
+
 }
 
-module.exports = events
+module.exports = settings
