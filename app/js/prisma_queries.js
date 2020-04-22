@@ -9,9 +9,28 @@ const prisma_queries = {
   post: async (id) => {
     return await prisma.posts.findOne({
       where: {
-        id: id
+        id: parseInt(id)
       }
     })
+  },
+
+  create_post: async (title, url, attached_image, included_image, included_link, snippet, community_id, sentiment_score) => {
+    return await prisma.posts.create({
+        data: {
+          title: title,
+          url: url,
+          created_at: moment().format('YYYY-MM-DD HH:mm:SS'),
+          attached_image: attached_image,
+          included_image: included_image,
+          included_link: included_link,
+          snippet: snippet,
+          community_id: parseInt(community_id),
+          sentiment_score: parseFloat(sentiment_score)
+        }
+      }).catch(e => {})
+      .finally(async () => {
+        await prisma.disconnect()
+      })
   },
 
   posts_count: async (id) => {
@@ -39,7 +58,7 @@ const prisma_queries = {
   community: async (id) => {
     return await prisma.communities.findOne({
       where: {
-        id: id
+        id: parseInt(id)
       }
     })
   },
@@ -49,6 +68,9 @@ const prisma_queries = {
         data: {
           name: `${name}`
         }
+      }).catch(e => {})
+      .finally(async () => {
+        await prisma.disconnect()
       })
   },
 

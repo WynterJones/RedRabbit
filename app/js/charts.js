@@ -7,16 +7,16 @@ const charts = {
     let chart_data = []
     let sql_statement = ''
     if (chart_id === 'dashboard-chart') {
-      sql_statement = `SELECT date_trunc('day', created_at), count(1) FROM posts GROUP BY 1 ORDER BY date_trunc('day', created_at) ASC`
+      sql_statement = `SELECT created_at, count(1) FROM posts GROUP BY 1 ORDER BY created_at ASC`
     }
     else {
-      sql_statement = `SELECT date_trunc('day', created_at), count(1) FROM posts WHERE community_id = ${$('#community_list a.active').attr('data-id')} GROUP BY 1 ORDER BY date_trunc('day', created_at) ASC`
+      sql_statement = `SELECT created_at, count(1) FROM posts WHERE community_id = ${$('#community_list a.active').attr('data-id')} GROUP BY 1 ORDER BY created_at ASC`
     }
     const date_group = await prisma_query.raw(sql_statement)
     if (date_group.length > 0) {
       date_group.forEach(function(item, index) {
-        if (item.date_trunc) {
-          chart_labels.push(`${moment(item.date_trunc).format('MMM. Do')}`)
+        if (item.created_at) {
+          chart_labels.push(`${moment(item.created_at).format('MMM. Do')}`)
           chart_data.push(parseInt(item.count))
         }
       })
