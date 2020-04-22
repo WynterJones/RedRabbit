@@ -8,6 +8,7 @@
   },
   "dependencies": {
     "@fancyapps/fancybox": "^3.5.7",
+    "@prisma/client": "^2.0.0-beta.3",
     "chart.js": "^2.9.3",
     "cheerio": "^1.0.0-rc.2",
     "domino": "^2.1.4",
@@ -25,6 +26,7 @@
     "url-exists": "^1.0.3"
   },
   "devDependencies": {
-    "@prisma/cli": "^2.0.0-beta.3"
+    "@prisma/cli": "^2.0.0-beta.3",
+    "object-sizeof": "^1.6.0"
   }
 }
