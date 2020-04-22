@@ -14,6 +14,7 @@ const db_requests = {
   posts: async () => {
     const all_posts = await prisma_query.posts_by_community_id()
     if (all_posts.length > 0) {
+      charts.dates('signal-chart', 'chart-signal-postsperday')
       $('#no-data').hide()
       $('#totalRows').text(format_number()(Object.keys(all_posts).length))
       $('#allPosts').html('')
@@ -33,10 +34,6 @@ const db_requests = {
         $('#sentimentLabel').html(`Avg. Sentiment <span class="hidden">${avg.toFixed(0)}</span>`)
       }
       pagination.init('posts', all_posts, 15)
-      $('#loading-bar').hide()
-      $('#nav').show()
-      $('.tab[data-tab="overview"]').show()
-      charts.dates('signal-chart', 'chart-signal-postsperday')
     } else {
       $('#no-data').show()
     }

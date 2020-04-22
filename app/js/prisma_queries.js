@@ -5,6 +5,8 @@ const prisma_queries = {
   posts: async () => {
     return await prisma.posts.findMany({
       select: {
+        title: true,
+        url: true,
         created_at: true,
         attached_image: true,
         included_image: true,
@@ -57,7 +59,7 @@ const prisma_queries = {
         data: {
           title: title,
           url: url,
-          created_at: moment().format('YYYY-MM-DD HH:mm:SS'),
+          created_at: moment().format('YYYY-MM-DD HH:mm:ss'),
           attached_image: attached_image,
           included_image: included_image,
           included_link: included_link,

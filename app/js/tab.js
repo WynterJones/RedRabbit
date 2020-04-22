@@ -32,11 +32,9 @@ const tab = {
         $('#word-table').html('<h4 class="text-gray-400 font-bold py-3 text-lg"><i class="fas fa-spinner fa-spin mr-1"></i> Loading keyword data...</h4>')
         keyword.community()
       }
-      if (tab !== 'overview') {
-        $('#loading-bar').hide()
-        $('#nav').show()
-        $(`.tab[data-tab="${tab}"]`).show()
-      }
+      $('#loading-bar').hide()
+      $('#nav').fadeIn()
+      $(`.tab[data-tab="${tab}"]`).fadeIn()
     }
   },
 

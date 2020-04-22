@@ -16,9 +16,7 @@ const charts = {
       date_group = await prisma_query.posts_community_chart(community_id)
     }
     date_group.forEach(function(item, index) {
-      if (moment(item.created_at).isValid()) {
-        new_dates.push(moment(item.created_at).startOf('day').toDate())
-      }
+      new_dates.push(moment(item.created_at).startOf('day').toDate())
     })
     const occurrenceDay = function(occurrence){
       return moment(occurrence).startOf('day').format()

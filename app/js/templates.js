@@ -1,7 +1,7 @@
 'use strict'
 
 const templates = {
-  
+
   posts: (data) => {
     let html = ''
     $.each(data, function(index, item) {

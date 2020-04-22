@@ -31,7 +31,7 @@ const community = {
     event.preventDefault()
     window.scrollTo(0, 0)
     $('#nav, .tab').hide()
-    $('#loading-bar').show()
+    $('#loading-bar').fadeIn()
     const name = $(element).attr('data-name')
     const id = $(element).attr('data-id')
     source_url = `https://www.reddit.com/r/${name}/new`
