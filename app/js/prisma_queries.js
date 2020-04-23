@@ -28,15 +28,7 @@ const prisma_queries = {
   },
 
   posts_chart: async () => {
-    return await prisma.posts.findMany({
-      select: {
-        created_at: true
-      },
-      orderBy: {
-        created_at: "asc"
-      }
-    })
-    .catch(e => {})
+    return await prisma.raw("select date_trunc('day', to_date(created_at,'YYYY-MM-DD')), count(1) from posts group by 1 order by date_trunc ASC")
   },
 
   posts_for_dashboard: async () => {
@@ -58,18 +50,7 @@ const prisma_queries = {
   },
 
   posts_community_chart: async (community_id) => {
-    return await prisma.posts.findMany({
-      select: {
-        created_at: true
-      },
-      where: {
-        community_id: parseInt(community_id)
-      },
-      orderBy: {
-        created_at: "asc"
-      }
-    })
-    .catch(e => {})
+    return await prisma.raw(`select date_trunc('day', to_date(created_at,'YYYY-MM-DD')), count(1) from posts where community_id = ${parseInt(community_id)} group by 1 order by date_trunc ASC`)
   },
 
   post: async (id) => {
@@ -174,6 +155,8 @@ const prisma_queries = {
   },
 
   raw: async (sql_statement) => {
+    // date_trunc('day', to_date(created_at,'YYYY-MM-DD')), count(1)
+    // prisma.raw("select date_trunc('day', to_date(created_at,'YYYY-MM-DD')), count(1) group by 1 order by created_at AS")
     return await prisma.raw(sql_statement)
   }
 

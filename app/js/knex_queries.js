@@ -10,12 +10,6 @@ const knex = require('knex')({
   }
 })
 
-
-const { PrismaClient } = require('@prisma/client')
-const prisma = new PrismaClient()
-prisma.connect()
-
-
 const knex_queries = {
 
   posts: async () => {
