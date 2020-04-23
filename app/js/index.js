@@ -4,11 +4,6 @@ window.$ = window.jQuery = require('jquery')
 const shell = require('electron').shell
 const { ipcRenderer } = require('electron')
 
-// Connect to Database
-const { PrismaClient } = require('@prisma/client')
-const prisma = new PrismaClient()
-prisma.connect()
-
 // npm
 const Chart = require('chart.js')
 const moment = require('moment')
@@ -25,7 +20,7 @@ const _ = require('underscore')
 const templates = require('./js/templates')
 const calculate = require('./js/calculate')
 const db_requests = require('./js/db_requests')
-const prisma_query = require('./js/prisma_queries')
+const prisma_query = require('./js/knex_queries')
 const dashboard = require('./js/dashboard')
 const charts = require('./js/charts')
 const pagination = require('./js/pagination')
