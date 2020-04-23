@@ -16,7 +16,7 @@ const posts = {
     else {
       shell.openExternal($(element).find('a').first().attr('href'))
     }
-  },
+  }
 
 }
 

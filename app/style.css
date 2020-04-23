@@ -44,6 +44,10 @@ a, button, .video-click, .video-click *, .post-click, .post-click * {
   width: 10px;
 }
 
+.dropdown:hover .dropdown-menu {
+  display: block;
+}
+
 #photos {
   line-height: 0;
   column-count: 4;

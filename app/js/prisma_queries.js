@@ -149,6 +149,26 @@ const prisma_queries = {
     })
   },
 
+  delete_community: async () => {
+    const id = parseInt($('#community_list a.active').attr('data-id'))
+    await prisma.communities.delete({
+      where: { id: id }
+    })
+    .catch(e => {})
+    .finally(async () => {
+      await prisma.posts.deleteMany({
+        where: { community_id: id }
+      })
+      .catch(e => {})
+      .finally(async () => {
+        $(`#community_list a.active[data-id="${id}"]`).remove()
+        $('#dashboard').trigger('click')
+        
+      })
+    })
+
+  },
+
   community: async (id) => {
     return await prisma.communities.findOne({
       where: {

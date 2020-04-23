@@ -7,6 +7,7 @@ const { ipcRenderer } = require('electron')
 // Connect to Database
 const { PrismaClient } = require('@prisma/client')
 const prisma = new PrismaClient()
+prisma.connect()
 
 // npm
 const Chart = require('chart.js')
@@ -67,3 +68,4 @@ $(document).on('click', '#settings',         function (event) { settings.open(ev
 $(document).on('click', '#add-community',    function (event) { community.add_new(event, this) })
 $(document).on('click', '#add-reddit-url',   function (event) { community.save(event, this) })
 $(document).on('click', '#community_list a', function (event) { community.open(event, this) })
+$(document).on('click', '#delete-community', function (event) { prisma_query.delete_community() })

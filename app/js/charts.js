@@ -27,9 +27,9 @@ const charts = {
         count: group.length
       }
     }
-    const final_date_group = _.chain(new_dates).groupBy(occurrenceDay).map(groupToDay).sortBy('day').value()
+    let final_date_group = _.chain(new_dates).groupBy(occurrenceDay).map(groupToDay).sortBy('day').value()
     if (final_date_group.length > 0) {
-      final_date_group.forEach(function(item, index) {
+      final_date_group.splice(0, 7).forEach(function(item, index) {
         if (item.created_at) {
           chart_labels.push(`${moment(item.created_at).format('MMM. Do')}`)
           chart_data.push(parseInt(item.count))
