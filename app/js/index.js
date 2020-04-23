@@ -40,7 +40,7 @@ const tab = require('./js/tab')
 const settings = require('./js/settings')
 
 // Global
-let loop_time = 120000
+let loop_time = 300000
 let source_url = ''
 let community_id = 0
 

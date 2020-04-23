@@ -52,6 +52,7 @@ const community = {
         image_count++
       }
     })
+    $('.tab-link').removeClass('disabled')
     if (video_count !== 0) {
       $('#videos-total').text(format_number()(video_count))
     } else {
@@ -67,7 +68,6 @@ const community = {
     $('#main_nav a').attr('class', 'block py-1 px-2 mb-1')
     $('#reddit-link').attr('href', source_url)
     $('#community-name').text(name)
-    $('.tab-link').removeClass('disabled')
     $('#community_list a').attr('class', 'block py-1 px-2 capitalize border border-gray-800')
     $(element).attr('class', 'active block py-1 px-2 rounded border-gray-700 border text-gray-300 bg-gray-900 capitalize')
     $('#header').show()

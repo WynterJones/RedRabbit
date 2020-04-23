@@ -20,9 +20,6 @@ const prisma_queries = {
       }
     })
     .catch(e => {})
-    .finally(async () => {
-      await prisma.disconnect()
-    })
   },
 
   posts_chart: async () => {
@@ -35,9 +32,6 @@ const prisma_queries = {
       }
     })
     .catch(e => {})
-    .finally(async () => {
-      await prisma.disconnect()
-    })
   },
 
   posts_for_dashboard: async () => {
@@ -56,9 +50,6 @@ const prisma_queries = {
       }
     })
     .catch(e => {})
-    .finally(async () => {
-      await prisma.disconnect()
-    })
   },
 
   posts_community_chart: async (community_id) => {
@@ -74,9 +65,6 @@ const prisma_queries = {
       }
     })
     .catch(e => {})
-    .finally(async () => {
-      await prisma.disconnect()
-    })
   },
 
   post: async (id) => {
@@ -86,9 +74,6 @@ const prisma_queries = {
       }
     })
     .catch(e => {})
-    .finally(async () => {
-      await prisma.disconnect()
-    })
   },
 
   create_post: async (title, url, attached_image, included_image, included_link, snippet, community_id, sentiment_score) => {
@@ -106,9 +91,6 @@ const prisma_queries = {
         }
       })
       .catch(e => {})
-      .finally(async () => {
-        await prisma.disconnect()
-      })
   },
 
   posts_count: async (id) => {
@@ -128,9 +110,6 @@ const prisma_queries = {
       }
     })
     .catch(e => {})
-    .finally(async () => {
-      await prisma.disconnect()
-    })
   },
 
   communities: async () => {
@@ -144,9 +123,6 @@ const prisma_queries = {
       }
     })
     .catch(e => {})
-    .finally(async () => {
-      await prisma.disconnect()
-    })
   },
 
   delete_community: async () => {
@@ -163,7 +139,7 @@ const prisma_queries = {
       .finally(async () => {
         $(`#community_list a.active[data-id="${id}"]`).remove()
         $('#dashboard').trigger('click')
-        
+
       })
     })
 
@@ -176,9 +152,6 @@ const prisma_queries = {
       }
     })
     .catch(e => {})
-    .finally(async () => {
-      await prisma.disconnect()
-    })
   },
 
   create_community: async (name) => {
@@ -188,9 +161,6 @@ const prisma_queries = {
         }
       })
       .catch(e => {})
-      .finally(async () => {
-        await prisma.disconnect()
-      })
   },
 
   communities_count: async () => {
