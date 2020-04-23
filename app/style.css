@@ -103,9 +103,13 @@ button.tab-link.disabled {
   z-index: 999
 }
 
+.hover-zoom {
+  transition: all 300ms;
+}
+
 .hover-zoom:hover {
-  transition: all 200ms;
-  transform: scale(1.02);
+  transform: scale(1.04);
+  box-shadow: 1px 3px 6px rgba(0, 0, 0, 0.4) !important;
   background: #131720;
   cursor: pointer !important;
 }

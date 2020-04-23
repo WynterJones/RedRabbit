@@ -20,27 +20,23 @@ const extract = {
       const snippet = $(element).find('[data-click-id="text"]').text()
       const sentiment = new Sentiment()
       const score = sentiment.analyze(`${title} ${snippet}`).score
-      let reddit_video = ''
-      if ($(element).find('video')) {
-        reddit_video = $(element).find('video source').attr('src')
-        fetch(`https://www.reddit.com/${url}.json`, { method: "Get" })
-          .then(res => res.json())
-          .then(async (json) => {
-            reddit_video = ''
-            if (json[0]) {
-              const media_url = json[0].data.children[0].data.crosspost_parent_list[0].secure_media.reddit_video.scrubber_media_url
-              if (media_url) {
-                reddit_video = media_url
-              }
+      let reddit_video = $(element).find('video').attr('poster')
+      if (included_link && included_link !== '') {
+          reddit_video = await start(included_link, title)
+          async function start(url, title) {
+            if (url.includes('youtu.be/')) {
+              let youtube_id = url.split('.be/')
+              youtube_id = youtube_id[1]
+              url = `https://www.youtube.com/watch?v=${youtube_id}`
             }
-            await prisma_query.create_post(title, url, attached_image, included_image, included_link, snippet, community_id, score, reddit_video)
-          })
-      } else {
-        if (title !== '' && url !== '') {
-          await prisma_query.create_post(title, url, attached_image, included_image, included_link, snippet, community_id, score, reddit_video)
-        }
+            const response = await fetch(url)
+            const result = await response.text()
+            const doc = domino.createWindow(result).document
+            const metadata = getMetadata(doc, url)
+            return metadata.image
+          }
       }
-
+      await prisma_query.create_post(title, url, attached_image, included_image, included_link, snippet, community_id, score, reddit_video)
     })
   }
 

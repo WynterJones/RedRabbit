@@ -56,7 +56,7 @@ const db_requests = {
           video_data.push(item)
       }
     })
-    pagination.init('videos', video_data, 15)
+    pagination.init('videos', video_data, 10)
   },
 
   search: async (search_query) => {

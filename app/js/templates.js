@@ -10,10 +10,6 @@ const templates = {
       if (item.created_at) {
         timestamp = `<span class="float-left text-sm mr-3">${moment(item.created_at).fromNow()}</span>`
       }
-      let reddit_video = ''
-      if (item.reddit_video && item.reddit_video !== 'undefined') {
-        reddit_video = `<video muted autoplay loop class="h-auto w-48"><source src="${item.reddit_video}"></video>`
-      }
       let included_link = ''
       if (item.included_link && item.included_link != 'undefined') {
         included_link = `<a href="${item.included_link}" class="included-link browser_link truncate float-left text-sm" style="max-width: 70%"><i class="fas fa-link mr-1"></i> ${item.included_link}</a>`
@@ -38,10 +34,12 @@ const templates = {
       if (item.snippet && item.snippet != '') {
         snippet = `<div class="mb-2 pr-8 text-gray-500">${item.snippet}</div>`
       }
-
-      if (attached_image !== '' || reddit_video !== '') {
-        html += `<div class="post-click hover-zoom hover:shadow w-full flex content-center flex-wrap clearfix bg-gray-900 text-gray-600 block rounded mb-3 border border-gray-800 overflow-hidden">
-          <div class="p-6 h-auto w-4/5">
+      if (item.reddit_video && item.reddit_video !== 'undefined') {
+        attached_image = item.reddit_video
+      }
+      if (attached_image !== '') {
+        html += `<div class="post-click hover-zoom w-full flex content-center flex-wrap clearfix bg-gray-900 text-gray-600 block rounded mb-3 border border-gray-800 overflow-hidden">
+          <div class="p-4 h-auto w-4/5">
             <a href="https://www.reddit.com${item.url}" style="max-width: 90%" class="font-headline text-2xl leading-snug text-gray-300 font-medium block mb-1">${item.title}</a>
             ${sentiment_score}
             ${timestamp}
@@ -49,12 +47,11 @@ const templates = {
           </div>
           <div class="h-auto w-48 relative w-1/5 bg-cover bg-left border-r border-gray-800 text-center overflow-hidden" style="background-image: url('${attached_image}')">
             <div class="shadow-image-overlay h-full"></div>
-            <div class="h-full w-48 overflow-hidden absolute">${reddit_video}</div>
           </div>
         </div>`
       }
       else {
-        html += `<div class="post-click hover-zoom hover:shadow bg-gray-900 clearfix text-gray-600 block p-6 rounded mb-3 border border-gray-800" style="padding-right: ${paddingRight}">
+        html += `<div class="post-click hover-zoom bg-gray-900 clearfix text-gray-600 block p-4 rounded mb-3 border border-gray-800" style="padding-right: ${paddingRight}">
             <a href="https://www.reddit.com${item.url}" style="max-width: 90%" class="font-headline text-2xl leading-snug text-gray-300 font-medium block mb-1">${item.title}</a>
             ${sentiment_score}
             ${timestamp}
@@ -116,15 +113,15 @@ const templates = {
       const metadata = getMetadata(doc, url)
       let video_html = ''
       if (metadata.title === 'YouTube') {
-        video_html = `<div class="hover-zoom opacity-75 w-full p-6 bg-gray-900 text-gray-600 block rounded mb-3 border border-gray-800 overflow-hidden">
+        video_html = `<div class="hover-zoom opacity-75 w-full p-4 bg-gray-900 text-gray-600 block rounded mb-3 border border-gray-800 overflow-hidden">
           <h3 class="font-headline  text-gray-300 font-bold block text-lg mb-1">Video Removed From YouTube</h3>
           <a href="https://www.reddit.com${reddit_url}" class="block w-full browser_link text-gray-300 block text-sm mb-1"><strong>Reddit Source:</strong> ${title}</a>
         </div>`
       } else if (metadata.title){
         video_html = `<div class="post-click  hover-zoom w-full flex bg-gray-900 text-gray-600 block rounded mb-3 border border-gray-800 overflow-hidden">
-          <div class="p-6 w-4/5">
+          <div class="p-4 w-4/5">
             <a href="${metadata.url}"  class="font-headline text-2xl browser_link text-gray-300  leading-snug font-medium block mb-1">${metadata.title}</a>
-            <div style="width: 85%" class="text-sm text-gray-600">${metadata.description}</div>
+            <div style="width: 85%" class="truncate text-sm text-gray-600">${metadata.description}</div>
           </div>
           <div class="h-auto w-48 relative w-1/5 bg-cover border-r border-gray-800 text-center overflow-hidden" style="background-image: url('${metadata.image}')">
             <div class="shadow-image-overlay h-full"></div>
