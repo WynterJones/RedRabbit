@@ -100,12 +100,14 @@ button.tab-link.disabled {
   background: rgb(26, 32, 44);
   background: linear-gradient(90deg, rgba(26, 32, 44, 1) 10%, rgba(26, 32, 44, 0) 100%);
   width: 50%;
+  z-index: 999
 }
 
 .hover-zoom:hover {
   transition: all 200ms;
   transform: scale(1.02);
   background: #131720;
+  cursor: pointer !important;
 }
 
 .included-link {

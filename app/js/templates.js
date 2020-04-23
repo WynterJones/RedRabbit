@@ -10,6 +10,10 @@ const templates = {
       if (item.created_at) {
         timestamp = `<span class="float-left text-sm mr-3">${moment(item.created_at).fromNow()}</span>`
       }
+      let reddit_video = ''
+      if (item.reddit_video && item.reddit_video !== 'undefined') {
+        reddit_video = `<video muted autoplay loop class="h-auto w-48"><source src="${item.reddit_video}"></video>`
+      }
       let included_link = ''
       if (item.included_link && item.included_link != 'undefined') {
         included_link = `<a href="${item.included_link}" class="included-link browser_link truncate float-left text-sm" style="max-width: 70%"><i class="fas fa-link mr-1"></i> ${item.included_link}</a>`
@@ -35,30 +39,32 @@ const templates = {
         snippet = `<div class="mb-2 pr-8 text-gray-500">${item.snippet}</div>`
       }
 
-      if (attached_image !== '') {
-        html += `<div class="post-click hover-zoom hover:shadow w-full flex clearfix bg-gray-900 text-gray-600 block rounded mb-3 border border-gray-800 overflow-hidden">
-          <div class="p-6 w-4/5">
+      if (attached_image !== '' || reddit_video !== '') {
+        html += `<div class="post-click hover-zoom hover:shadow w-full flex content-center flex-wrap clearfix bg-gray-900 text-gray-600 block rounded mb-3 border border-gray-800 overflow-hidden">
+          <div class="p-6 h-auto w-4/5">
             <a href="https://www.reddit.com${item.url}" style="max-width: 90%" class="font-headline text-2xl leading-snug text-gray-300 font-medium block mb-1">${item.title}</a>
-            ${snippet}
             ${sentiment_score}
             ${timestamp}
             ${included_link}
           </div>
           <div class="h-auto w-48 relative w-1/5 bg-cover bg-left border-r border-gray-800 text-center overflow-hidden" style="background-image: url('${attached_image}')">
             <div class="shadow-image-overlay h-full"></div>
+            <div class="h-full w-48 overflow-hidden absolute">${reddit_video}</div>
           </div>
         </div>`
       }
       else {
         html += `<div class="post-click hover-zoom hover:shadow bg-gray-900 clearfix text-gray-600 block p-6 rounded mb-3 border border-gray-800" style="padding-right: ${paddingRight}">
             <a href="https://www.reddit.com${item.url}" style="max-width: 90%" class="font-headline text-2xl leading-snug text-gray-300 font-medium block mb-1">${item.title}</a>
-            ${snippet}
             ${sentiment_score}
             ${timestamp}
             ${included_link}
         </div>`
       }
     });
+    $('.post-click').each(function() {
+      $(this).find('video').attr('autoplay', 'true')
+    })
     return html;
   },
 

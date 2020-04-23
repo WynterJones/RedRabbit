@@ -12,6 +12,7 @@ const prisma_queries = {
         included_image: true,
         included_link: true,
         snippet: true,
+        reddit_video: true,
         community_id: true,
         sentiment_score: true
       },
@@ -46,7 +47,7 @@ const prisma_queries = {
         sentiment_score: true
       },
       orderBy: {
-        created_at: "asc"
+        created_at: "desc"
       }
     })
     .catch(e => {})
@@ -76,7 +77,7 @@ const prisma_queries = {
     .catch(e => {})
   },
 
-  create_post: async (title, url, attached_image, included_image, included_link, snippet, community_id, sentiment_score) => {
+  create_post: async (title, url, attached_image, included_image, included_link, snippet, community_id, sentiment_score, reddit_video) => {
     return await prisma.posts.create({
         data: {
           title: title,
@@ -85,8 +86,9 @@ const prisma_queries = {
           attached_image: attached_image,
           included_image: included_image,
           included_link: included_link,
-          snippet: snippet,
+          snippet: `${snippet}`,
           community_id: parseInt(community_id),
+          reddit_video: `${reddit_video}`,
           sentiment_score: parseFloat(sentiment_score)
         }
       })

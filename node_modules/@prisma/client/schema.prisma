@@ -13,6 +13,7 @@ model communities {
 }
 
 model posts {
+  reddit_video    String?
   attached_image  String?
   community_id    Int?
   created_at      String?
