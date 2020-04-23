@@ -19,6 +19,10 @@ const prisma_queries = {
         created_at: "desc"
       }
     })
+    .catch(e => {})
+    .finally(async () => {
+      await prisma.disconnect()
+    })
   },
 
   posts_chart: async () => {
@@ -29,6 +33,10 @@ const prisma_queries = {
       orderBy: {
         created_at: "asc"
       }
+    })
+    .catch(e => {})
+    .finally(async () => {
+      await prisma.disconnect()
     })
   },
 
@@ -47,6 +55,10 @@ const prisma_queries = {
         created_at: "asc"
       }
     })
+    .catch(e => {})
+    .finally(async () => {
+      await prisma.disconnect()
+    })
   },
 
   posts_community_chart: async (community_id) => {
@@ -61,6 +73,10 @@ const prisma_queries = {
         created_at: "asc"
       }
     })
+    .catch(e => {})
+    .finally(async () => {
+      await prisma.disconnect()
+    })
   },
 
   post: async (id) => {
@@ -68,6 +84,10 @@ const prisma_queries = {
       where: {
         id: parseInt(id)
       }
+    })
+    .catch(e => {})
+    .finally(async () => {
+      await prisma.disconnect()
     })
   },
 
@@ -84,8 +104,10 @@ const prisma_queries = {
           community_id: parseInt(community_id),
           sentiment_score: parseFloat(sentiment_score)
         }
-      }).catch(e => {
-        console.log('Error in create_post' ,e)
+      })
+      .catch(e => {})
+      .finally(async () => {
+        await prisma.disconnect()
       })
   },
 
@@ -105,10 +127,26 @@ const prisma_queries = {
         created_at: "desc"
       }
     })
+    .catch(e => {})
+    .finally(async () => {
+      await prisma.disconnect()
+    })
   },
 
   communities: async () => {
-    return await prisma.communities.findMany()
+    return await prisma.communities.findMany({
+      select: {
+        id: true,
+        name: true
+      },
+      orderBy: {
+        id: "asc"
+      }
+    })
+    .catch(e => {})
+    .finally(async () => {
+      await prisma.disconnect()
+    })
   },
 
   community: async (id) => {
@@ -117,6 +155,10 @@ const prisma_queries = {
         id: parseInt(id)
       }
     })
+    .catch(e => {})
+    .finally(async () => {
+      await prisma.disconnect()
+    })
   },
 
   create_community: async (name) => {
@@ -124,7 +166,8 @@ const prisma_queries = {
         data: {
           name: `${name}`
         }
-      }).catch(e => {})
+      })
+      .catch(e => {})
       .finally(async () => {
         await prisma.disconnect()
       })
