@@ -1,19 +1,6 @@
 # RedRabbit
 
-
-
-## Installation
-
-This is a [Node.js](https://nodejs.org/) module available through the 
-[npm registry](https://www.npmjs.com/). It can be installed using the 
-[`npm`](https://docs.npmjs.com/getting-started/installing-npm-packages-locally)
-or 
-[`yarn`](https://yarnpkg.com/en/)
-command line tools.
-
-```sh
-npm install RedRabbit --save
-```
+Work in progress.
 
 ## Dependencies
 
@@ -38,7 +25,6 @@ npm install RedRabbit --save
 ## Dev Dependencies
 
 - [devtron](https://ghub.io/devtron): Electron DevTools Extension
-- [electron-process-manager](https://ghub.io/electron-process-manager): Process manager UI for Electron applications
 - [package-json-to-readme](https://ghub.io/package-json-to-readme): Generate a README.md from package.json contents
 
 ## License
