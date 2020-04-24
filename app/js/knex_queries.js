@@ -115,7 +115,7 @@ const knex_queries = {
             .where('id', id)
   },
 
-  create_post: async (title, url, attached_image, included_image, included_link, snippet, community_id, sentiment_score, reddit_video) => {
+  create_post: async (title, url, attached_image, included_image, included_link, community_id, sentiment_score, reddit_video) => {
     knex('posts')
       .where('url', url)
       .then(function(rows) {

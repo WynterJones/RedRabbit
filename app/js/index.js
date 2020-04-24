@@ -5,6 +5,7 @@ const shell = require('electron').shell
 const { ipcRenderer } = require('electron')
 
 // npm
+const isDev = require('electron-is-dev')
 const Chart = require('chart.js')
 const moment = require('moment')
 const cheerio = require('cheerio')
@@ -14,6 +15,8 @@ const format_number = require('format-number')
 const TextCleaner = require('text-cleaner')
 const Sentiment = require('sentiment')
 const fancybox = require('@fancyapps/fancybox')
+const Store = require('electron-store')
+const store = new Store()
 
 // local js
 const templates = require('./js/templates')
@@ -33,6 +36,12 @@ const community = require('./js/community')
 const tab = require('./js/tab')
 const settings = require('./js/settings')
 
+// Dev
+if (isDev) {
+	console.log('Running in development')
+  require('devtron').install()
+}
+
 // Global
 let loop_time = 120000
 let source_url = ''
@@ -47,7 +56,7 @@ setInterval(function () {
 db_requests.communities()
 
 // Save Extracted Data
-ipcRenderer.on('extracthtml', (event, html) => { extract.save(event, html) })
+ipcRenderer.on('extracthtml', (event, data) => { extract.save(event, data) })
 
 // Events
 $(document).find('[data-fancybox="gallery"]').fancybox()
