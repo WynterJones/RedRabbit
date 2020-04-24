@@ -14,14 +14,11 @@ const community = {
 
   save: async (event, element) => {
     event.preventDefault()
-    let url = $('#redditURL').val()
-    if (url && url !== '') {
-      url = url.split('r/')
-      url = url[1].split('/')
-      if (url[0] && url[0] !== '') {
-        await database_query.create_community(url[0])
-        db_requests.communities()
-      }
+    const url = $('#redditURL').val()
+    const website = $('#redditURL-type').val()
+    const name = $('#redditURL-name').val()
+    if (url !== '') {
+      await database_query.create_community(name, url, website)
     } else {
       Alert('No Url...')
     }
@@ -34,7 +31,7 @@ const community = {
     $('#loading-bar').fadeIn()
     const name = $(element).attr('data-name')
     const id = $(element).attr('data-id')
-    source_url = `https://www.reddit.com/r/${name}/new`
+    source_url = name
     const all_posts = await database_query.posts_by_community_id(id)
     let video_count = 0
     let image_count = 0

@@ -156,7 +156,9 @@ const knex_queries = {
     return knex('communities')
             .select(
               'id',
-              'name'
+              'name',
+              'url',
+              'website'
             )
             .orderBy('id', 'asc')
   },
@@ -174,13 +176,17 @@ const knex_queries = {
             .where('id', id)
   },
 
-  create_community: async (name) => {
+  create_community: async (name, url, website) => {
     knex('communities')
       .where('name', name)
       .then(function(rows) {
         if (rows.length === 0) {
           knex('communities').insert({
-            name: name
+            name: name,
+            url: url,
+            website: website
+          }).then(() => {
+            db_requests.communities()
           })
         }
       })

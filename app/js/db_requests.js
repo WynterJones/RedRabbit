@@ -6,7 +6,7 @@ const db_requests = {
     const all_communities = await database_query.communities()
     $('#community_list').html('')
     all_communities.forEach(function(item, index) {
-      $('#community_list').append(`<a href="#" data-name="${item.name}" data-id="${item.id}" class="block py-1 px-2 capitalize border border-gray-800">${item.name}</a>`)
+      $('#community_list').append(`<a href="#" data-name="${item.name}" data-url="${item.url}" data-website="${item.website}" data-id="${item.id}" class="block py-1 px-2 capitalize border border-gray-800">${item.name}</a>`)
     })
     $('#dashboard').trigger('click')
   },
