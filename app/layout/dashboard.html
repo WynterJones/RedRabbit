@@ -1,0 +1,68 @@
+<div id="dashboard-tab" class="tab" style="display:none">
+  <div class="pt-2 mb-6">
+    <h3 class="text-gray-400 font-bold text-3xl mb-1"><i class="fas fa-satellite-dish mr-1"></i> Red<span class="text-gray-600">Rabbit</span></h3>
+    <p class="text-gray-600 text-lg">Your monitor-spy for Reddit. Periodically scan communities for new posts and save to database.</p>
+  </div>
+  <div class="p-6 bg-gray-800 border border-gray-800 rounded mb-4" style="background: rgba(19, 23, 32, 1.000)">
+    <div class="flex mb-8">
+      <div class="w-1/3">
+        <p id="overalltotalRows" class="text-3xl font-semibold text-center text-gray-300"></p>
+        <p class="text-center text-gray-500 font-medium">Total Posts Recorded</p>
+      </div>
+      <div class="w-1/3">
+        <p id="chart-dashboard-postsperday" class="text-3xl font-semibold text-center text-gray-300"></p>
+        <p class="text-center text-gray-500 font-medium">Avg. Posts Per Day</p>
+      </div>
+      <div class="w-1/3">
+        <p id="dashboard-sentimentScore" class="text-3xl font-semibold text-center  text-gray-300"></p>
+        <p id="dashboard-sentimentLabel" class="text-center text-gray-500 font-medium">Avg. Sentiment</p>
+      </div>
+    </div>
+    <hr class="border-gray-800 mb-8">
+    <div id="dashboard-chart"></div>
+  </div>
+  <div class="flex -mx-2 text-gray-600 mb-3">
+    <div class="w-1/2 px-2">
+      <div class="p-6 bg-gray-800 border border-gray-800 rounded mb-4" style="background: rgba(19, 23, 32, 1.000)">
+        <p class="text-gray-500 mb-3 uppercase font-bold">Keyword Stats</p>
+        <hr class="border-gray-800 mb-4">
+        <div id="dashboard-keyword-chart" class="mb-3"></div>
+        <div id="dashboard-keyword">
+          <table class="table-fixed border-gray-700" style="width: 100%">
+            <thead class="bg-gray-800 border border-gray-700 text-gray-300">
+              <tr>
+                <th class="w-3/4 px-4 py-2 text-left">Word</th>
+                <th class="w-1/4 px-4 py-2 text-left">Count</th>
+                <th class="w-1/4 px-4 py-2 text-left">Posts</th>
+              </tr>
+            </thead>
+            <tbody id="dashboard-word-table"></tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+    <div class="w-1/2 px-2">
+      <div class="p-6 bg-gray-800 border border-gray-800 rounded mb-4" style="background: rgba(19, 23, 32, 1.000)">
+        <p class="text-gray-500 mb-3 uppercase font-bold">Latest Posts</p>
+        <hr class="border-gray-800 mb-4">
+        <div id="dashboard-posts"></div>
+      </div>
+    </div>
+  </div>
+  <div class="flex -mx-2">
+    <div class="w-1/2 px-2">
+      <div class="p-6 bg-gray-800 border border-gray-800 rounded mb-4" style="background: rgba(19, 23, 32, 1.000)">
+        <p class="text-gray-500 mb-3 uppercase font-bold">Latest Videos</p>
+        <hr class="border-gray-800 mb-4">
+        <div id="dashboard-videos"></div>
+      </div>
+    </div>
+    <div class="w-1/2 px-2">
+      <div class="p-6 bg-gray-800 border border-gray-800 rounded mb-4" style="background: rgba(19, 23, 32, 1.000)">
+        <p class="text-gray-500 mb-3 uppercase font-bold">Latest Images</p>
+        <hr class="border-gray-800 mb-4">
+        <div id="dashboard-images"></div>
+      </div>
+    </div>
+  </div>
+</div>

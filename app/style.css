@@ -146,19 +146,6 @@ button.tab-link.disabled {
   width: 10px;
 }
 
-/*#add-community {
-  position: fixed;
-  width: 170px;
-  bottom: 70px;
-  left: 15px;
-}
-
-#settings {
-  position: fixed;
-  width: 170px;
-  bottom: 15px;
-  left: 15px;
-} */
 #search, .fancybox-bg {
   -webkit-app-region: none
 }
