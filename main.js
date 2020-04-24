@@ -24,7 +24,10 @@ app.on('ready', function () {
     minHeight: 850,
     fullscreen: false,
     show: false,
-    titleBarStyle: 'hiddenInset'
+    titleBarStyle: 'hiddenInset',
+    webPreferences: {
+      nodeIntegration: true
+    }
   })
 
   mainWindow.loadURL(mainUrl)
