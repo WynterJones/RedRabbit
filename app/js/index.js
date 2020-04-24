@@ -14,7 +14,6 @@ const format_number = require('format-number')
 const TextCleaner = require('text-cleaner')
 const Sentiment = require('sentiment')
 const fancybox = require('@fancyapps/fancybox')
-const _ = require('underscore')
 
 // local js
 const templates = require('./js/templates')
