@@ -10,10 +10,10 @@ const charts = {
     let date_group = ''
     const community_id = $('#community_list a.active').attr('data-id')
     if (chart_id === 'dashboard-chart') {
-      date_group = await prisma_query.posts_chart()
+      date_group = await database_query.posts_chart()
     }
     else {
-      date_group = await prisma_query.posts_community_chart(community_id)
+      date_group = await database_query.posts_community_chart(community_id)
     }
     if (date_group.length > 0) {
       date_group.splice(0, 7).forEach(function(item, index) {

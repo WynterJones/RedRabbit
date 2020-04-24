@@ -19,7 +19,7 @@ const community = {
       url = url.split('r/')
       url = url[1].split('/')
       if (url[0] && url[0] !== '') {
-        await prisma_query.create_community(url[0])
+        await database_query.create_community(url[0])
         db_requests.communities()
       }
     } else {
@@ -35,7 +35,7 @@ const community = {
     const name = $(element).attr('data-name')
     const id = $(element).attr('data-id')
     source_url = `https://www.reddit.com/r/${name}/new`
-    const all_posts = await prisma_query.posts_by_community_id(id)
+    const all_posts = await database_query.posts_by_community_id(id)
     let video_count = 0
     let image_count = 0
     all_posts.forEach(function(item, index) {

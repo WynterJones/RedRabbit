@@ -3,7 +3,7 @@
 const search = {
 
   search: async (search_query) => {
-    const all_posts = await prisma_query.posts_by_community_id()
+    const all_posts = await database_query.posts_by_community_id()
     const full_count = all_posts.length
     const search_all_posts = []
     search_query = search_query.toLowerCase()

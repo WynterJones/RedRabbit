@@ -10,8 +10,8 @@ const dashboard = {
     $(element).attr('class', 'block py-1 px-2 rounded border-gray-700 border text-gray-300 bg-gray-900 capitalize')
     $('#community_list a.active').attr('class','block py-1 px-2 capitalize border border-gray-800')
 
-    const allPosts = await prisma_query.posts_for_dashboard()
-    const allPostsCount = await prisma_query.posts_count()
+    const allPosts = await database_query.posts_for_dashboard()
+    const allPostsCount = await database_query.posts_count()
     const total = allPostsCount
     let video_data = []
     let image_data = []

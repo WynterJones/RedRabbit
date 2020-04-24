@@ -36,7 +36,7 @@ const extract = {
             return metadata.image
           }
       }
-      await prisma_query.create_post(title, url, attached_image, included_image, included_link, snippet, community_id, score, reddit_video)
+      await database_query.create_post(title, url, attached_image, included_image, included_link, snippet, community_id, score, reddit_video)
     })
   }
 
