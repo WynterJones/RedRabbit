@@ -31,7 +31,7 @@ const community = {
     $('#loading-bar').fadeIn()
     const name = $(element).attr('data-name')
     const id = $(element).attr('data-id')
-    source_url = name
+    const source_url = $(element).attr('data-url')
     const all_posts = await database_query.posts_by_community_id(id)
     let video_count = 0
     let image_count = 0

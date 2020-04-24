@@ -59,7 +59,7 @@ app.on('ready', function () {
     app.quit()
   })
 
-  childWindow.webContents.on('dom-ready', function () {
+  childWindow.webContents.on('did-finish-load', function () {
     childWindow.send('sendbackhtml')
   })
 })

@@ -40,7 +40,7 @@ const templates = {
       if (attached_image !== '') {
         html += `<div class="post-click hover-zoom w-full flex content-center flex-wrap clearfix bg-gray-900 text-gray-600 block rounded mb-3 border border-gray-800 overflow-hidden">
           <div class="p-4 h-auto w-4/5">
-            <a href="https://www.reddit.com${item.url}" style="max-width: 90%" class="font-headline text-2xl leading-snug text-gray-300 font-medium block mb-1">${item.title}</a>
+            <a href="${item.url}" style="max-width: 90%" class="font-headline text-2xl leading-snug text-gray-300 font-medium block mb-1">${item.title}</a>
             ${sentiment_score}
             ${timestamp}
             ${included_link}
@@ -52,7 +52,7 @@ const templates = {
       }
       else {
         html += `<div class="post-click hover-zoom bg-gray-900 clearfix text-gray-600 block p-4 rounded mb-3 border border-gray-800" style="padding-right: ${paddingRight}">
-            <a href="https://www.reddit.com${item.url}" style="max-width: 90%" class="font-headline text-2xl leading-snug text-gray-300 font-medium block mb-1">${item.title}</a>
+            <a href="${item.url}" style="max-width: 90%" class="font-headline text-2xl leading-snug text-gray-300 font-medium block mb-1">${item.title}</a>
             ${sentiment_score}
             ${timestamp}
             ${included_link}
@@ -71,7 +71,7 @@ const templates = {
       let timestamp = ''
       let paddingRight = '0'
       html += `<div class="post-click hover-zoom bg-gray-900 clearfix text-gray-600 block p-3 rounded mb-3 border border-gray-800" style="padding-right: ${paddingRight}">
-          <a href="https://www.reddit.com${item.url}" style="width: 90%" class="font-headline browser_link truncate text-gray-300 font-bold block mb-1">${item.title}</a>
+          <a href="${item.url}" style="width: 90%" class="font-headline browser_link truncate text-gray-300 font-bold block mb-1">${item.title}</a>
           <span class="dashboard-open-community text-sm mr-3 bg-gray-900 rounded border border-gray-700 p-1" data-id="${item.community_id}">${item.community_id}</span>
           <span class="text-sm mr-3"><i class="far fa-calendar-alt mr-1"></i> ${moment(item.created_at).fromNow()}</span>
       </div>`
@@ -115,7 +115,7 @@ const templates = {
       if (metadata.title === 'YouTube') {
         video_html = `<div class="hover-zoom opacity-75 w-full p-4 bg-gray-900 text-gray-600 block rounded mb-3 border border-gray-800 overflow-hidden">
           <h3 class="font-headline  text-gray-300 font-bold block text-lg mb-1">Video Removed From YouTube</h3>
-          <a href="https://www.reddit.com${reddit_url}" class="block w-full browser_link text-gray-300 block text-sm mb-1"><strong>Reddit Source:</strong> ${title}</a>
+          <a href="${reddit_url}" class="block w-full browser_link text-gray-300 block text-sm mb-1"><strong>Reddit Source:</strong> ${title}</a>
         </div>`
       } else if (metadata.title){
         video_html = `<div class="post-click  hover-zoom w-full flex bg-gray-900 text-gray-600 block rounded mb-3 border border-gray-800 overflow-hidden">
