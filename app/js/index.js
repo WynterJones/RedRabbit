@@ -20,7 +20,7 @@ const _ = require('underscore')
 const templates = require('./js/templates')
 const calculate = require('./js/calculate')
 const db_requests = require('./js/db_requests')
-const prisma_query = require('./js/prisma_queries')
+const prisma_query = require('./js/knex_queries')
 const dashboard = require('./js/dashboard')
 const charts = require('./js/charts')
 const pagination = require('./js/pagination')
@@ -35,12 +35,12 @@ const tab = require('./js/tab')
 const settings = require('./js/settings')
 
 // Global
-let loop_time = 120000
+let loop_time = 10000
 let source_url = ''
 let community_id = 0
 
 // Main Loop
-setInterval(function () {
+setTimeout(function () {
   monitor.spy()
 }, loop_time)
 
@@ -64,3 +64,5 @@ $(document).on('click', '#add-community',    function (event) { community.add_ne
 $(document).on('click', '#add-reddit-url',   function (event) { community.save(event, this) })
 $(document).on('click', '#community_list a', function (event) { community.open(event, this) })
 $(document).on('click', '#delete-community', function (event) { prisma_query.delete_community() })
+
+$(document).on('click', '#install-create-tables', function (event) { prisma_query.create_tables(event, this) })

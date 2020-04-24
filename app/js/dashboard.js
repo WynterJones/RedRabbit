@@ -3,7 +3,6 @@
 const dashboard = {
 
   init: async (event, element) => {
-    var t0 = performance.now()
     event.preventDefault()
     $('.tab, header, #nav').hide()
     $('#loading-bar').show()
@@ -55,8 +54,6 @@ const dashboard = {
     $('#dashboard-tab').fadeIn()
     keyword.dashboard(word_list, allPosts, allPostsCount)
     charts.dates('dashboard-chart', 'chart-dashboard-postsperday')
-    var t1 = performance.now();
-    console.log("Call to 'dashboard.init()' took " + (t1 - t0) + " milliseconds.");
   }
 
 }
