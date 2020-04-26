@@ -30,10 +30,6 @@ const templates = {
         attached_image = item.included_image
         paddingRight = ''
       }
-      let snippet = ''
-      if (item.snippet && item.snippet != '') {
-        snippet = `<div class="mb-2 pr-8 text-gray-500">${item.snippet}</div>`
-      }
       if (item.reddit_video && item.reddit_video !== 'undefined') {
         attached_image = item.reddit_video
       }
@@ -58,9 +54,6 @@ const templates = {
             ${included_link}
         </div>`
       }
-    });
-    $('.post-click').each(function() {
-      $(this).find('video').attr('autoplay', 'true')
     })
     return html;
   },
@@ -110,25 +103,18 @@ const templates = {
       const response = await fetch(url)
       const result = await response.text()
       const doc = domino.createWindow(result).document
-      const metadata = getMetadata(doc, url)
+      const metadata = await getMetadata(doc, url)
       let video_html = ''
-      if (metadata.title === 'YouTube') {
-        video_html = `<div class="hover-zoom opacity-75 w-full p-4 bg-gray-900 text-gray-600 block rounded mb-3 border border-gray-800 overflow-hidden">
-          <h3 class="font-headline  text-gray-300 font-bold block text-lg mb-1">Video Removed From YouTube</h3>
-          <a href="${reddit_url}" class="block w-full browser_link text-gray-300 block text-sm mb-1"><strong>Reddit Source:</strong> ${title}</a>
-        </div>`
-      } else if (metadata.title){
-        video_html = `<div class="post-click  hover-zoom w-full flex bg-gray-900 text-gray-600 block rounded mb-3 border border-gray-800 overflow-hidden">
-          <div class="p-4 w-4/5">
-            <a href="${metadata.url}"  class="font-headline text-2xl browser_link text-gray-300  leading-snug font-medium block mb-1">${metadata.title}</a>
-            <div style="width: 85%" class="truncate text-sm text-gray-600">${metadata.description}</div>
-          </div>
-          <div class="h-auto w-48 relative w-1/5 bg-cover border-r border-gray-800 text-center overflow-hidden" style="background-image: url('${metadata.image}')">
-            <div class="shadow-image-overlay h-full"></div>
-            <a href="${metadata.url}" class="browser_link block h-full w-full"></a>
-          </div>
-        </div>`
-      }
+      video_html = `<div class="post-click  hover-zoom w-full flex bg-gray-900 text-gray-600 block rounded mb-3 border border-gray-800 overflow-hidden">
+        <div class="p-4 w-4/5">
+          <a href="${metadata.url}"  class="font-headline text-2xl browser_link text-gray-300  leading-snug font-medium block mb-1">${metadata.title}</a>
+          <div style="width: 85%" class="truncate text-sm text-gray-600">${metadata.description}</div>
+        </div>
+        <div class="h-auto w-48 relative w-1/5 bg-cover border-r border-gray-800 text-center overflow-hidden" style="background-image: url('${metadata.image}')">
+          <div class="shadow-image-overlay h-full"></div>
+          <a href="${metadata.url}" class="browser_link block h-full w-full"></a>
+        </div>
+      </div>`
       $('#video-list').append(video_html)
     }
 

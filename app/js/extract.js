@@ -45,7 +45,7 @@ const extract = {
       const included_link = $(element).find('.twitter-timeline-link').attr('href')
       const score = extract.sentiment_score(title)
       if (!attached_image && included_link && included_link !== '' && included_link.includes('http')) {
-        attached_image = await extract.meta_image(included_link, title)
+        attached_image = await extract.meta_image(included_link)
       }
       await database_query.create_post(title, url, attached_image, '', included_link, community_id, score, '')
     })
@@ -59,17 +59,19 @@ const extract = {
     return score
   },
 
-  meta_image: async (url, title) => {
-    if (url.includes('youtu.be/')) {
-      let youtube_id = url.split('.be/')
-      youtube_id = youtube_id[1]
-      url = `https://www.youtube.com/watch?v=${youtube_id}`
+  meta_image: async (url) => {
+    if (url) {
+      if (url.includes('youtu.be/')) {
+        let youtube_id = url.split('.be/')
+        youtube_id = youtube_id[1]
+        url = `https://www.youtube.com/watch?v=${youtube_id}`
+      }
+      const response = await fetch(url)
+      const result = await response.text()
+      const doc = domino.createWindow(result).document
+      const metadata = getMetadata(doc, url)
+      return metadata.image
     }
-    const response = await fetch(url)
-    const result = await response.text()
-    const doc = domino.createWindow(result).document
-    const metadata = getMetadata(doc, url)
-    return metadata.image
   }
 
 }

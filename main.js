@@ -5,7 +5,7 @@ const { app, BrowserWindow, ipcMain } = require('electron')
 
 let mainWindow = null
 let childWindow = null
-
+let editorWindow = null
 
 const mainUrl = url.format({
   protocol: 'file',
@@ -13,8 +13,15 @@ const mainUrl = url.format({
   pathname: path.join(__dirname, 'app/index.html')
 })
 
+const editorUrl = url.format({
+  protocol: 'file',
+  slashes: true,
+  pathname: path.join(__dirname, 'app/editor/editor.html')
+})
+
 app.on('ready', function () {
 
+  // Main Window (app)
   mainWindow = new BrowserWindow({
     center: true,
     fullscreen: false,
@@ -36,13 +43,14 @@ app.on('ready', function () {
     mainWindow.show();
     mainWindow.focus();
   })
-  mainWindow.webContents.openDevTools()
+  // mainWindow.webContents.openDevTools({ mode: 'detach' })
 
   mainWindow.on('closed', function () {
     mainWindow = null
     app.quit()
   })
 
+  // Child Window (scraping)
   childWindow = new BrowserWindow({
       parent: mainWindow,
       show: false,
@@ -50,6 +58,7 @@ app.on('ready', function () {
       height: 600,
       webPreferences: {
         nodeIntegration: false,
+        webviewTag: true,
         preload: path.join(__dirname, 'app/js/preload.js')
       }
   })
@@ -62,6 +71,20 @@ app.on('ready', function () {
   childWindow.webContents.on('did-finish-load', function () {
     childWindow.send('sendbackhtml')
   })
+
+  // Editor
+  editorWindow = new BrowserWindow({
+      show: true,
+      width: 1200,
+      height: 1200,
+      webPreferences: {
+        nodeIntegration: true,
+        webviewTag: true,
+      }
+  })
+  editorWindow.loadURL(editorUrl)
+  editorWindow.webContents.openDevTools({ mode: 'detach' })
+
 })
 
 app.on('window-all-closed', function () {

@@ -16,6 +16,7 @@
     "electron-is-dev": "^1.2.0",
     "electron-store": "^5.1.1",
     "format-number": "^3.0.0",
+    "himalaya": "^1.1.0",
     "jquery": "^3.5.0",
     "knex": "^0.20.15",
     "moment": "^2.24.0",
